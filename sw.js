@@ -1,4 +1,4 @@
-const CACHE_NAME = 'flappy-pwa-v1';
+const CACHE_NAME = 'flappy-pwa-v2';
 const ASSETS = [
   './',
   './index.html',
