@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Flappy PWA</title>
+    <meta name="description" content="A Flappy Bird–style game that works offline as a PWA." />
+    <link rel="manifest" href="manifest.webmanifest" />
+    <meta name="theme-color" content="#0ea5e9" />
+    <link rel="icon" sizes="192x192" href="icon-192.png" />
+    <link rel="apple-touch-icon" sizes="192x192" href="icon-192.png" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div id="app">
+      <div class="game-wrap">
+        <canvas id="game" width="600" height="800" aria-label="Flappy game canvas"></canvas>
+
+        <div class="hud">
+          <div class="score" id="score">0</div>
+          <div class="high" id="high">Best: 0</div>
+        </div>
+
+        <div class="cta" id="menu">
+          <div class="card">
+            <h2>Flappy PWA</h2>
+            <p>Tap the button or the screen to flap. Avoid pipes. Good luck!</p>
+            <button class="primary" id="playBtn">Play</button>
+          </div>
+        </div>
+
+        <div class="cta hidden" id="gameOver">
+          <div class="card">
+            <h3>Game Over</h3>
+            <p id="finalScore">Score: 0</p>
+            <button class="primary" id="retryBtn">Try Again</button>
+          </div>
+        </div>
+
+        <div class="controls">
+          <button class="tap-btn" id="tapBtn" aria-label="Flap">TAP</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Register the service worker for offline support
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('./sw.js').catch(console.error);
+        });
+      }
+    </script>
+    <script src="game.js" type="module"></script>
+  </body>
+</html>
