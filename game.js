@@ -77,7 +77,7 @@ function flap() {
     return;
   }
   if (running) {
-    bird.vy = Math.min(-3, bird.vy + FLAP * 0.85);
+    bird.vy = FLAP;
   }
 }
 document.addEventListener('keydown', (e) => {
