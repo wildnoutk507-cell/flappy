@@ -28,7 +28,7 @@ function fitCanvas() {
     canvas.width = w;
     canvas.height = h;
   }
-  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  ctx.setTransform(1, 0, 0, 1, 0, 0);
 }
 window.addEventListener('resize', fitCanvas, { passive: true });
 fitCanvas();
@@ -44,21 +44,21 @@ function sy(y) { return y * (canvas.height / DESIGN_H); }
 // Bird
 const bird = {
   x: 140,
-  y: 400,
+  y: DESIGN_H * 0.45,
   vy: 0,
   r: 18,
 };
-const GRAVITY = 0.5;
-const FLAP = -8.5;
-const MAX_FALL = 16;
+const GRAVITY = 0.38;
+const FLAP = -7.2;
+const MAX_FALL = 11;
 
 // Pipes
 let pipes = [];
-const PIPE_GAP = 170;
+const PIPE_GAP = 190;
 const PIPE_W = 80;
-let pipeSpeed = 3.2;
+let pipeSpeed = 2.8;
 let spawnTimer = 0;
-const SPAWN_INTERVAL = 100; // frames
+const SPAWN_INTERVAL = 95; // frames
 
 // Ground visual (simple)
 let groundY = 740;
@@ -77,7 +77,7 @@ function flap() {
     return;
   }
   if (running) {
-    bird.vy = FLAP;
+    bird.vy = Math.min(-3, bird.vy + FLAP * 0.85);
   }
 }
 document.addEventListener('keydown', (e) => {
@@ -124,12 +124,10 @@ function resetGame() {
 function rand(min, max) { return Math.random() * (max - min) + min; }
 
 function addPipe() {
-  const holeY = rand(180, DESIGN_H - 260);
-  pipes.push({
-    x: DESIGN_W + PIPE_W,
-    holeY,
-    passed: false
-  });
+  const safeTop = 120 + PIPE_GAP / 2;               // keep away from ceiling
+  const safeBottom = groundY - 120 - PIPE_GAP / 2;  // keep above ground
+  const holeY = rand(safeTop, safeBottom);
+  pipes.push({ x: DESIGN_W + PIPE_W, holeY, passed: false });
 }
 
 function collide(b, p) {
